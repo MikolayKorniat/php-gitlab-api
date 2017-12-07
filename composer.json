@@ -1,7 +1,7 @@
 {
-	"name": "m4tthumphrey/php-gitlab-api",
+	"name": "mikolaykorniat/php-gitlab-api",
 	"type": "library",
-	"description": "GitLab API client",
+	"description": "GitLab API client (Forked from m4tthumphrey/php-gitlab-api)",
 	"homepage": "https://github.com/m4tthumphrey/php-gitlab-api",
 	"keywords": ["gitlab", "api"],
 	"license": "MIT",
