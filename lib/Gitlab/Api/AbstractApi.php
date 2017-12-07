@@ -14,7 +14,7 @@ abstract class AbstractApi implements ApiInterface
     /**
      * Default entries per page
      */
-    const PER_PAGE = 20;
+    const PER_PAGE = 10000;
 
     /**
      * The client

@@ -1,6 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php namespace Gitlab\ApiV3;
 
-class Projects extends AbstractApi
+class Projects extends \Gitlab\Api\AbstractApi
 {
     const ORDER_BY = 'created_at';
     const SORT = 'asc';
@@ -31,7 +31,7 @@ class Projects extends AbstractApi
      */
     public function accessible($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
-        return $this->get('projects?membership=true', array(
+        return $this->get('projects', array(
             'page' => $page,
             'per_page' => $per_page,
             'order_by' => $order_by,
@@ -40,7 +40,6 @@ class Projects extends AbstractApi
     }
 
     /**
-     * Get projects owned by the current user
      * @param int $page
      * @param int $per_page
      * @param string $order_by
@@ -49,7 +48,7 @@ class Projects extends AbstractApi
      */
     public function owned($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
-        return $this->get('projects?owned=true', array(
+        return $this->get('projects/owned', array(
             'page' => $page,
             'per_page' => $per_page,
             'order_by' => $order_by,
@@ -127,7 +126,7 @@ class Projects extends AbstractApi
     {
         return $this->delete('projects/'.$this->encodePath($project_id));
     }
-
+    
     /**
      * @param int $project_id
      * @return mixed
@@ -135,7 +134,7 @@ class Projects extends AbstractApi
     public function archive($project_id){
         return $this->post("projects/".$this->encodePath($project_id)."/archive");
     }
-
+    
     /**
      * @param int $project_id
      * @return mixed
@@ -157,8 +156,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $build_id
+     * @param $project_id
+     * @param $build_id
      * @return mixed
      */
     public function build($project_id, $build_id)
@@ -167,8 +166,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $build_id
+     * @param $project_id
+     * @param $build_id
      * @return mixed
      */
     public function trace($project_id, $build_id)

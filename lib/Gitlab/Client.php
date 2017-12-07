@@ -3,7 +3,6 @@
 use Buzz\Client\Curl;
 use Buzz\Client\ClientInterface;
 
-use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\HttpClient;
 use Gitlab\HttpClient\HttpClientInterface;
@@ -99,61 +98,66 @@ class Client
      */
     public function api($name)
     {
+      $version = strpos($this->baseUrl, '/api/v4/') ? 'Gitlab\Api' : 'Gitlab\ApiV3';
+      $className = '';
+
         switch ($name) {
 
             case 'deploy_keys':
-                $api = new Api\DeployKeys($this);
+                $className = $version . '\DeployKeys';
                 break;
 
             case 'groups':
-                $api = new Api\Groups($this);
+                $className = $version . '\Groups';
                 break;
 
             case 'issues':
-                $api = new Api\Issues($this);
+                $className = $version . '\Issues';
                 break;
 
             case 'mr':
             case 'merge_requests':
-                $api = new Api\MergeRequests($this);
+                $className = $version . '\MergeRequests';
                 break;
 
             case 'milestones':
             case 'ms':
-                $api = new Api\Milestones($this);
+                $className = $version . '\Milestones';
                 break;
 
             case 'namespaces':
             case 'ns':
-                $api = new Api\ProjectNamespaces($this);
+                $className = $version . '\ProjectNamespaces';
                 break;
 
             case 'projects':
-                $api = new Api\Projects($this);
+                $className = $version . '\Projects';
                 break;
 
             case 'repo':
             case 'repositories':
-                $api = new Api\Repositories($this);
+                $className = $version . '\Repositories';
                 break;
 
             case 'snippets':
-                $api = new Api\Snippets($this);
+                $className = $version . '\Snippets';
                 break;
 
             case 'hooks':
             case 'system_hooks':
-                $api = new Api\SystemHooks($this);
+                $className = $version . '\SystemHooks';
                 break;
 
             case 'users':
-                $api = new Api\Users($this);
+                $className = $version . '\Users';
                 break;
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
 
         }
+
+        $api = new $className($this);
 
         return $api;
     }

@@ -1,14 +1,14 @@
-<?php namespace Gitlab\Api;
+<?php namespace Gitlab\ApiV3;
 
-class Repositories extends AbstractApi
+class Repositories extends \Gitlab\Api\AbstractApi
 {
     /**
      * @param int $project_id
      * @return mixed
      */
-    public function branches($project_id, array $params = array())
+    public function branches($project_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches'), $params);
+        return $this->get($this->getProjectPath($project_id, 'repository/branches'));
     }
 
     /**
@@ -30,7 +30,7 @@ class Repositories extends AbstractApi
     public function createBranch($project_id, $branch_name, $ref)
     {
         return $this->post($this->getProjectPath($project_id, 'repository/branches'), array(
-            'branch' => $branch_name,
+            'branch_name' => $branch_name,
             'ref' => $ref
         ));
     }
@@ -248,7 +248,8 @@ class Repositories extends AbstractApi
      */
     public function getFile($project_id, $file_path, $ref)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files/' . $this->encodePath($file_path)), array(
+        return $this->get($this->getProjectPath($project_id, 'repository/files'), array(
+            'file_path' => $file_path,
             'ref' => $ref
         ));
     }
@@ -264,8 +265,9 @@ class Repositories extends AbstractApi
      */
     public function createFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/files/' . $this->encodePath($file_path)), array(
-            'branch' => $branch_name,
+        return $this->post($this->getProjectPath($project_id, 'repository/files'), array(
+            'file_path' => $file_path,
+            'branch_name' => $branch_name,
             'content' => $content,
             'commit_message' => $commit_message,
             'encoding' => $encoding
@@ -283,8 +285,9 @@ class Repositories extends AbstractApi
      */
     public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/files/' . $this->encodePath($file_path)), array(
-            'branch' => $branch_name,
+        return $this->put($this->getProjectPath($project_id, 'repository/files'), array(
+            'file_path' => $file_path,
+            'branch_name' => $branch_name,
             'content' => $content,
             'commit_message' => $commit_message,
             'encoding' => $encoding
@@ -300,8 +303,9 @@ class Repositories extends AbstractApi
      */
     public function deleteFile($project_id, $file_path, $branch_name, $commit_message)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/files' . $this->encodePath($file_path)), array(
-            'branch' => $branch_name,
+        return $this->delete($this->getProjectPath($project_id, 'repository/files'), array(
+            'file_path' => $file_path,
+            'branch_name' => $branch_name,
             'commit_message' => $commit_message
         ));
     }

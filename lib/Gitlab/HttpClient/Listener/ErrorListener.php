@@ -49,9 +49,9 @@ class ErrorListener implements ListenerInterface
             }
 
             $errorMessage = null;
-            if (isset($content['error'])) {
-                $errorMessage = implode("\n", $content['error']);
-            } elseif (isset($content['message'])) {
+            if (is_array($content) && isset($content['error'])) {
+                $errorMessage = is_array($content['error']) ? implode("\n", $content['error']) : $content['error'];
+            } elseif (is_array($content) && isset($content['message'])) {
                 $errorMessage = $this->parseMessage($content['message']);
             } else {
                 $errorMessage = $content;
