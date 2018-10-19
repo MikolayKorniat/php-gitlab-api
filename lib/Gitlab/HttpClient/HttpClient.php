@@ -148,7 +148,13 @@ class HttpClient implements HttpClientInterface
      */
     public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array(), array $files = array())
     {
-        $path = trim($this->baseUrl.$path, '/');
+        $uri = @parse_url($path);
+
+        if(!array_key_exists('scheme', $uri)) {
+          $path = $this->baseUrl . $path;
+        }
+
+        $path = trim($path, '/');
 
         $request = $this->createRequest($httpMethod, $path, $parameters, $headers, $files);
 
