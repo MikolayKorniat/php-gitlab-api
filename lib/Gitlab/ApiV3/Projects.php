@@ -2,6 +2,7 @@
 
 class Projects extends \Gitlab\Api\AbstractApi
 {
+    const GUEST_ACCESS_LEVEL = 10;
     const ORDER_BY = 'created_at';
     const SORT = 'asc';
 
@@ -25,18 +26,28 @@ class Projects extends \Gitlab\Api\AbstractApi
     /**
      * @param int $page
      * @param int $per_page
+     * @param int $min_access_level
      * @param string $order_by
      * @param string $sort
      * @return mixed
      */
-    public function accessible($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
-    {
-        return $this->get('projects', array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'order_by' => $order_by,
-            'sort' => $sort
-        ));
+    public function accessible(
+        $page = 1,
+        $per_page = self::PER_PAGE,
+        $min_access_level = self::GUEST_ACCESS_LEVEL,
+        $order_by = self::ORDER_BY,
+        $sort = self::SORT
+    ) {
+        return $this->get(
+            'projects?membership=true',
+            array(
+                'page' => $page,
+                'per_page' => $per_page,
+                'min_access_level' => $min_access_level,
+                'order_by' => $order_by,
+                'sort' => $sort
+            )
+        );
     }
 
     /**
