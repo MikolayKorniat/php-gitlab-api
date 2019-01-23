@@ -5,13 +5,15 @@ class Groups extends \Gitlab\Api\AbstractApi
     /**
      * @param int $page
      * @param int $per_page
+     * @param int $min_access_level
      * @return mixed
      */
-    public function all($page = 1, $per_page = self::PER_PAGE)
+    public function all($page = 1, $per_page = self::PER_PAGE, $min_access_level = 10)
     {
         return $this->get('groups', array(
             'page' => $page,
-            'per_page' => $per_page
+            'per_page' => $per_page,
+            'min_access_level' => $min_access_level
         ));
     }
 
@@ -42,6 +44,7 @@ class Groups extends \Gitlab\Api\AbstractApi
      * @param string $name
      * @param string $path
      * @param string $description
+     * @param int $visibility_level
      * @return mixed
      */
     public function create($name, $path, $description = null, $visibility_level = 0)
