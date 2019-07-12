@@ -214,7 +214,7 @@ class HttpClient implements HttpClientInterface
      */
     private function createRequest($httpMethod, $url, array $parameters, array $headers, array $files)
     {
-        if (empty($files)) {
+        if ($httpMethod === 'GET') {
             $request = new Request($httpMethod);
             $request->setContent(http_build_query($parameters));
         } else {
